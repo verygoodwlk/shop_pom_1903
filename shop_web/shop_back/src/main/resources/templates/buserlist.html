@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="${#request.getContextPath() + '/'}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+    <!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
+    <!-- Reset Stylesheet -->
+    <link rel="stylesheet" href="resources/css/reset.css" type="text/css"
+          media="screen" />
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="resources/css/style.css" type="text/css"
+          media="screen" />
+    <link rel="stylesheet" href="resources/css/invalid.css" type="text/css"
+          media="screen" />
+
+    <!--                       Javascripts                       -->
+    <!-- jQuery -->
+    <script type="text/javascript"
+            src="resources/scripts/jquery-1.8.3.min.js"></script>
+    <!-- jQuery Configuration
+    <script type="text/javascript"
+            src="resources/scripts/simpla.jquery.configuration.js"></script>-->
+
+    <!-- 添加弹出框的jquery插件 -->
+    <script type="text/javascript" src="resources/widget/dialog/jquery-ui-1.9.2.custom.min.js"></script>
+    <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+
+
+</head>
+<body>
+<div id="main-content">
+    <div class="content-box">
+        <!-- End .content-box-header -->
+        <div class="content-box-content">
+            <div class="tab-content default-tab" id="tab1">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><input class="check-all" type="checkbox" /></th>
+                        <th>编号</th>
+                        <th>用户名</th>
+                        <th>姓名</th>
+                        <th>入职时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="user : ${users}">
+                        <td><input type="checkbox" /></td>
+                        <td th:text="${user.id}">Lorem ipsum dolor</td>
+                        <td th:text="${user.username}"><a href="#" title="title">Sit amet</a></td>
+                        <td th:text="${user.name}">Consectetur adipiscing</td>
+                        <td th:text="${#dates.format(user.createtime, 'yyyy-MM-dd')}">Donec tortor diam</td>
+                        <td>
+                            <!-- Icons --> <a href="#" title="Edit"><img
+                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
+                                href="#" title="Delete"><img
+                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
+                                href="#" title="Edit Meta"><img
+                                src="resources/images/icons/hammer_screwdriver.png"
+                                alt="Edit Meta" /></a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <div class="bulk-actions align-left">
+                                <a class="mybutton" onclick="open_dialog();">添加职工</a>
+                            </div>
+                            <!--<div class="pagination">
+                                <a href="#" title="First Page">&laquo; First</a><a href="#"
+                                                                                   title="Previous Page">&laquo; Previous</a> <a href="#"
+                                                                                                                                 class="number" title="1">1</a> <a href="#" class="number"
+                                                                                                                                                                   title="2">2</a> <a href="#" class="number current" title="3">3</a>
+                                <a href="#" class="number" title="4">4</a> <a href="#"
+                                                                              title="Next Page">Next &raquo;</a><a href="#"
+                                                                                                                   title="Last Page">Last &raquo;</a>
+                            </div>-->
+                            <!-- End .pagination -->
+                            <div class="clear"></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!-- End .content-box-content -->
+    </div>
+</div>
+<!-- End #main-content -->
+
+<script>
+    //弹出添加职工的dialog
+    function open_dialog(){
+        $("#dialog_div").dialog({
+            title: "添加职工",
+            width: 400,
+            height: 300,
+            modal: true
+        });
+    }
+</script>
+
+<!-- 代表一个弹出框 - 默认隐藏 -->
+<div id="dialog_div" style="display: none;">
+    <form action="/buser/insert" method="post">
+        用户名:<input name="username"/><br/>
+        密码:<input name="password" type="password" value="12345678"/><br/>
+        姓名:<input name="name"/><br/>
+        性别：<input type="radio" value="1" name="sex" checked/>男 <input type="radio" name="sex" value="0"/>女<br/>
+        <button type="submit">添加</button>
+    </form>
+</div>
+
+</body>
+</html>
