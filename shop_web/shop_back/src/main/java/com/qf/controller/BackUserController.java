@@ -46,4 +46,17 @@ public class BackUserController {
         backUserService.insertUser(backUser);
         return "redirect:/buser/list";
     }
+
+    /**
+     * 修改职工的所属角色
+     * @return
+     */
+    @RequestMapping("/updaterole")
+    public String updateUserRole(Integer uid, Integer[] rid){
+
+//        System.out.println("操作的用户：" + uid + "  添加的角色：" + Arrays.toString(rid));
+        backUserService.updateUserRoles(uid, rid);
+
+        return "redirect:/buser/list";
+    }
 }

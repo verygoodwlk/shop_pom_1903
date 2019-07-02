@@ -9,4 +9,6 @@ public interface IBackUserService {
     List<BackUser> queryAll();
 
     int insertUser(BackUser backUser);
+
+    int updateUserRoles(Integer uid, Integer[] rid);
 }

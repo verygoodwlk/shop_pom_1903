@@ -39,31 +39,26 @@
                     <tr>
                         <th><input class="check-all" type="checkbox" /></th>
                         <th>编号</th>
-                        <th>用户名</th>
-                        <th>姓名</th>
-                        <th>入职时间</th>
+                        <th>角色名称</th>
+                        <th>角色别名</th>
                         <th>操作</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    <tr th:each="user : ${users}">
+                    <tr th:each="role : ${roles}">
                         <td><input type="checkbox" /></td>
-                        <td th:text="${user.id}">Lorem ipsum dolor</td>
-                        <td th:text="${user.username}"><a href="#" title="title">Sit amet</a></td>
-                        <td th:text="${user.name}">Consectetur adipiscing</td>
-                        <td th:text="${#dates.format(user.createtime, 'yyyy-MM-dd')}">Donec tortor diam</td>
+                        <td th:text="${role.id}">Lorem ipsum dolor</td>
+                        <td th:text="${role.rolename}"><a href="#" title="title">Sit amet</a></td>
+                        <td th:text="${role.rolealias}">Consectetur adipiscing</td>
                         <td>
-                            <!-- Icons -->
-                            <a href="#" title="Edit"><img
-                                src="resources/images/icons/pencil.png" alt="Edit" /></a>
-                            <a href="#" title="Delete"><img
-                                src="resources/images/icons/cross.png" alt="Delete" /></a>
-
-                            <!-- 设置该职工所拥有的角色 -->
-                            <a th:onclick="|set_user_role(${user.id});|" title="Edit Meta"><img
+                            <!-- Icons --> <a href="#" title="Edit"><img
+                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
+                                href="#" title="Delete"><img
+                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
+                                href="#" title="Edit Meta"><img
                                 src="resources/images/icons/hammer_screwdriver.png"
-                                alt="编辑职工的角色" /></a>
+                                alt="Edit Meta" /></a>
                         </td>
                     </tr>
                     </tbody>
@@ -72,7 +67,7 @@
                     <tr>
                         <td colspan="6">
                             <div class="bulk-actions align-left">
-                                <a class="mybutton" onclick="open_dialog();">添加职工</a>
+                                <a class="mybutton" onclick="open_dialog();">添加角色</a>
                             </div>
                             <!--<div class="pagination">
                                 <a href="#" title="First Page">&laquo; First</a><a href="#"
@@ -97,47 +92,10 @@
 <!-- End #main-content -->
 
 <script>
-    /**
-     * 设置职工的所属角色
-     */
-    function set_user_role(uid){
-        //将职工的id放入隐藏域
-        $("#uid").val(uid);
-
-        //通过ajax查询所有角色
-        $.get("/role/listajax",{"uid":uid},function(data){
-
-            //遍历当前所有的角色
-            var html = "";
-            for(var i = 0; i < data.length; i++){
-                if(data[i].checked){
-                    html += "<input type='checkbox' name='rid' value='" + data[i].id + "' checked/>" + data[i].rolename + "<br/>";
-                } else {
-                    html += "<input type='checkbox' name='rid' value='" + data[i].id + "'/>" + data[i].rolename + "<br/>";
-                }
-
-            }
-            $("#show_role_div").html(html);
-
-        }, "json");
-
-        //通过dialog弹出当前所有的角色
-        $("#edit_role_div").dialog({
-            title: "选择角色",
-            modal: true
-        });
-    }
-
-    //修改职工的角色
-    // function update_user_role(){
-    //
-    //
-    // }
-
-    //弹出添加职工的dialog
+    //弹出添加角色的dialog
     function open_dialog(){
         $("#dialog_div").dialog({
-            title: "添加职工",
+            title: "添加角色",
             width: 400,
             height: 300,
             modal: true
@@ -147,26 +105,10 @@
 
 <!-- 代表一个弹出框 - 默认隐藏 -->
 <div id="dialog_div" style="display: none;">
-    <form action="/buser/insert" method="post">
-        用户名:<input name="username"/><br/>
-        密码:<input name="password" type="password" value="12345678"/><br/>
-        姓名:<input name="name"/><br/>
-        性别：<input type="radio" value="1" name="sex" checked/>男 <input type="radio" name="sex" value="0"/>女<br/>
+    <form action="/role/insert" method="post">
+        角色名称:<input name="rolename"/><br/>
+        角色别名:<input name="rolealias"/><br/>
         <button type="submit">添加</button>
-    </form>
-</div>
-
-<!-- 编辑职工角色的弹出框 -->
-<div id="edit_role_div" style="display: none;">
-    <form action="/buser/updaterole" method="post">
-
-        <!-- 职工的id -->
-        <input type="hidden" name="uid" id="uid" value=""/>
-
-        <!-- 角色的复选框 -->
-        <div id="show_role_div">
-        </div>
-        <button type="submit">确定</button>
     </form>
 </div>
 

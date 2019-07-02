@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="${#request.getContextPath() + '/'}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+    <!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
+    <!-- Reset Stylesheet -->
+    <link rel="stylesheet" href="resources/css/reset.css" type="text/css"
+          media="screen" />
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="resources/css/style.css" type="text/css"
+          media="screen" />
+    <link rel="stylesheet" href="resources/css/invalid.css" type="text/css"
+          media="screen" />
+
+    <!--                       Javascripts                       -->
+    <!-- jQuery -->
+    <script type="text/javascript"
+            src="resources/scripts/jquery-1.8.3.min.js"></script>
+    <!-- jQuery Configuration
+    <script type="text/javascript"
+            src="resources/scripts/simpla.jquery.configuration.js"></script>-->
+
+    <!-- 添加弹出框的jquery插件 -->
+    <script type="text/javascript" src="resources/widget/dialog/jquery-ui-1.9.2.custom.min.js"></script>
+    <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+
+    <!-- 添加树形结构插件 ztree -->
+    <script type="text/javascript" src="resources/widget/zTree/jquery.ztree.all.min.js"></script>
+    <link rel="stylesheet" href="resources/widget/zTree/zTreeStyle/zTreeStyle.css">
+</head>
+<body>
+<div id="main-content">
+    <div class="content-box">
+        <!-- End .content-box-header -->
+        <div class="content-box-content">
+            <div class="tab-content default-tab" id="tab1">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><input class="check-all" type="checkbox" /></th>
+                        <th>编号</th>
+                        <th>权限名称</th>
+                        <th>父权限</th>
+                        <th>权限路径</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="power : ${powers}">
+                        <td><input type="checkbox" /></td>
+                        <td th:text="${power.id}">Lorem ipsum dolor</td>
+                        <td th:text="${power.powername}"><a href="#" title="title">Sit amet</a></td>
+                        <td th:text="${power.pname != null ? power.pname : '无'}">Consectetur adipiscing</td>
+                        <td th:text="${power.powerpath}">Donec tortor diam</td>
+                        <td th:switch="${power.status}">
+                            <span th:case="1">主菜单权限</span>
+                            <span th:case="2">子菜单权限</span>
+                            <span th:case="3">按钮级权限</span>
+                        </td>
+                        <td>
+                            <!-- Icons --> <a href="#" title="Edit"><img
+                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
+                                href="#" title="Delete"><img
+                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
+                                href="#" title="Edit Meta"><img
+                                src="resources/images/icons/hammer_screwdriver.png"
+                                alt="Edit Meta" /></a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <div class="bulk-actions align-left">
+                                <a class="mybutton" onclick="open_dialog();">添加权限</a>
+                            </div>
+                            <!--<div class="pagination">
+                                <a href="#" title="First Page">&laquo; First</a><a href="#"
+                                                                                   title="Previous Page">&laquo; Previous</a> <a href="#"
+                                                                                                                                 class="number" title="1">1</a> <a href="#" class="number"
+                                                                                                                                                                   title="2">2</a> <a href="#" class="number current" title="3">3</a>
+                                <a href="#" class="number" title="4">4</a> <a href="#"
+                                                                              title="Next Page">Next &raquo;</a><a href="#"
+                                                                                                                   title="Last Page">Last &raquo;</a>
+                            </div>-->
+                            <!-- End .pagination -->
+                            <div class="clear"></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!-- End .content-box-content -->
+    </div>
+</div>
+<!-- End #main-content -->
+
+<script>
+    //弹出添加职工的dialog
+    function open_dialog(){
+        $("#dialog_div").dialog({
+            title: "添加权限",
+            width: 400,
+            height: 300,
+            modal: true
+        });
+    }
+
+
+    //ztree树形结构的对象
+    var zTreeObject;
+
+    //展示父级权限框
+    function show_parent_power(){
+
+        //ztree的核心配置对象
+        var setting = {
+            data:{
+                key:{
+                    name:"powername"
+                },
+                simpleData:{
+                    enable:true,
+                    pIdKey:"pid"
+                }
+            },
+            view:{
+                //隐藏节点图标
+                showIcon:false
+            },
+            callback:{
+                //节点点击事件的回调方法
+                onClick:function(event, treeId, treeNode){
+                    //alert("点击了节点：" + treeNode.powername);
+                    //判断是否为按钮级权限，如果点击的是按钮级权限，则提示该权限不能为父权限
+                    if(treeNode.status == 3){
+                        alert("该权限不能作为父权限！");
+                        return;
+                    }
+
+                    //修改按钮中显示文本
+                    $("#btn_id").html(treeNode.powername);
+                    $("#pid").val(treeNode.id);
+
+                    //设置权限的状态类型
+                    if(treeNode.status == 1){
+                        $("#status_show_id").html("子菜单权限");
+                        $("#status").val(2);
+                    } else if(treeNode.status == 2){
+                        $("#status_show_id").html("按钮级权限");
+                        $("#status").val(3);
+                    }
+
+                    //关闭弹出框
+                    $("#ztree_dialog").dialog("close");
+                }
+            }
+        };
+
+        //ajax查询数据库获得所有权限树
+        $.get("/power/listajax", function(data){
+
+            //根据查询的权限使用ztree生成树形结构
+            zTreeObject = $.fn.zTree.init($("#ztreeDiv"), setting, data);
+            //展开所有节点
+            zTreeObject.expandAll(true);
+
+        }, "json");
+
+        //弹出树形结构
+        $("#ztree_dialog").dialog({
+            title: "选择父权限",
+            width: 200,
+            height: 300,
+            modal: true
+        });
+    }
+</script>
+
+<!-- 代表一个弹出框 - 默认隐藏 -->
+<div id="dialog_div" style="display: none;">
+    <form action="/power/insert" method="post">
+        权限名称：<input name="powername"/><br/>
+        父权限：<button id="btn_id" type="button" onclick="show_parent_power();">无</button>
+            <input name="pid" id="pid" type="hidden" value="-1"/>
+        <br/>
+        权限路径：<input name="powerpath"/><br/>
+        权限状态：
+            <span id="status_show_id">主菜单权限</span>
+            <input name="status" id="status" type="hidden" value="1"/>
+        <br/>
+        <button type="submit">添加</button>
+    </form>
+</div>
+
+<!-- 父级权限选择的弹出框 -->
+<div id="ztree_dialog" style="display: none;">
+    <!-- ztree展示的容器 -->
+    <div id="ztreeDiv" class="ztree"></div>
+</div>
+
+</body>
+</html>

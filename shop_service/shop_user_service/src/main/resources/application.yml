@@ -12,3 +12,6 @@ dubbo:
   protocol:
     port: -1
     name: dubbo
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
