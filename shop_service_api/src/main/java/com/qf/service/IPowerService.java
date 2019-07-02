@@ -8,5 +8,7 @@ public interface IPowerService {
 
     List<Power> powerList();
 
+    List<Power> powerListByRid(Integer rid);
+
     int insert(Power power);
 }

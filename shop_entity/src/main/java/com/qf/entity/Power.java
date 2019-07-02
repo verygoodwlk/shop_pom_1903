@@ -30,4 +30,7 @@ public class Power implements Serializable {
 
     @TableField(exist = false)
     private String pname;
+
+    @TableField(exist = false)
+    private boolean checked;
 }

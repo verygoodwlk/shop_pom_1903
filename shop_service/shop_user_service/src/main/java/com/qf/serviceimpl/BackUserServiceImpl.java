@@ -53,4 +53,21 @@ public class BackUserServiceImpl implements IBackUserService {
 
         return 1;
     }
+
+    /**
+     * 进行登录
+     * @param username
+     * @param password
+     * @return
+     */
+    @Override
+    public BackUser login(String username, String password) {
+        BackUser backUser = backUserMapper.queryByUserName(username);
+
+        if(backUser != null && backUser.getPassword().equals(password)){
+            //登录成功
+            return backUser;
+        }
+        return null;
+    }
 }

@@ -11,4 +11,6 @@ public interface IBackUserService {
     int insertUser(BackUser backUser);
 
     int updateUserRoles(Integer uid, Integer[] rid);
+
+    BackUser login(String username, String password);
 }

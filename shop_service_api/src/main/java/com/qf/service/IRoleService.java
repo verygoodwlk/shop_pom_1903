@@ -11,4 +11,6 @@ public interface IRoleService {
     int insertRole(Role role);
 
     List<Role> roleListByUid(Integer uid);
+
+    int updateRolePowers(Integer rid, Integer[] pids);
 }

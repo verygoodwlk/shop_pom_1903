@@ -9,4 +9,6 @@ import com.qf.entity.BackUser;
  * @date 2019/7/1 15:20
  */
 public interface BackUserMapper extends BaseMapper<BackUser> {
+
+    BackUser queryByUserName(String username);
 }

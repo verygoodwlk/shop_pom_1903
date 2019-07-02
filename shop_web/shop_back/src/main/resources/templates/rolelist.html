@@ -26,6 +26,9 @@
     <script type="text/javascript" src="resources/widget/dialog/jquery-ui-1.9.2.custom.min.js"></script>
     <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
 
+    <!-- 添加树形结构插件 ztree -->
+    <script type="text/javascript" src="resources/widget/zTree/jquery.ztree.all.min.js"></script>
+    <link rel="stylesheet" href="resources/widget/zTree/zTreeStyle/zTreeStyle.css">
 
 </head>
 <body>
@@ -52,11 +55,14 @@
                         <td th:text="${role.rolename}"><a href="#" title="title">Sit amet</a></td>
                         <td th:text="${role.rolealias}">Consectetur adipiscing</td>
                         <td>
-                            <!-- Icons --> <a href="#" title="Edit"><img
-                                src="resources/images/icons/pencil.png" alt="Edit" /></a> <a
+                            <!-- Icons -->
+                            <a href="#" title="Edit"><img
+                                src="resources/images/icons/pencil.png" alt="Edit" /></a>
+                            <a
                                 href="#" title="Delete"><img
-                                src="resources/images/icons/cross.png" alt="Delete" /></a> <a
-                                href="#" title="Edit Meta"><img
+                                src="resources/images/icons/cross.png" alt="Delete" /></a>
+                            <a
+                                th:onclick="|update_role_power(${role.id});|" title="Edit Meta"><img
                                 src="resources/images/icons/hammer_screwdriver.png"
                                 alt="Edit Meta" /></a>
                         </td>
@@ -92,6 +98,78 @@
 <!-- End #main-content -->
 
 <script>
+
+    var roleid;
+    var zTreeObject;
+    /**
+     * 提交修改角色的权限
+     */
+    function update_power(){
+        //角色的id - 全局的 roleid
+        var rid = roleid;
+
+        //所选的权限id - 集合
+        var pids = new Array();
+
+        var checkedNodes = zTreeObject.getCheckedNodes(true);
+        for(var i = 0; i < checkedNodes.length; i++){
+            // alert("选择的权限：" + checkedNodes[i].powername);
+            pids.push(checkedNodes[i].id);
+        }
+
+        //ajax进行提交
+        $.post("/role/updatePower",{"rid":rid, "pids":pids}, function(data){
+            if(data == "succ"){
+                //关闭弹出框
+                $("#ztree_div").dialog("close");
+            }
+        },"text");
+    }
+
+    /**
+     * 修改指定角色的权限
+     */
+    function update_role_power(rid){
+
+        roleid = rid;
+
+        //ztree的核心配置对象
+        var setting = {
+            data:{
+                key:{
+                    name:"powername"
+                },
+                simpleData:{
+                    enable:true,
+                    pIdKey:"pid"
+                }
+            },
+            view:{
+                //隐藏节点图标
+                showIcon:false
+            },
+            check:{
+                enable: true,
+                chkboxType: {"Y":"ps", "N":"s"}
+            }
+        };
+
+        //通过rid查询当前所有的权限以及这个角色拥有哪些权限
+        $.get("/power/queryPowersByRid", {"rid":rid}, function(data){
+
+            //生成ztree树形结构
+            zTreeObject = $.fn.zTree.init($("#ztreeDiv"), setting, data);
+            zTreeObject.expandAll(true);//全部展开
+
+        },"json");
+
+        //弹出dialog让用户选择
+        $("#ztree_div").dialog({
+            title:"选择权限",
+            modal:true
+        });
+    }
+
     //弹出添加角色的dialog
     function open_dialog(){
         $("#dialog_div").dialog({
@@ -110,6 +188,12 @@
         角色别名:<input name="rolealias"/><br/>
         <button type="submit">添加</button>
     </form>
+</div>
+
+<!-- 权限树的弹出框 -->
+<div id="ztree_div" style="display: none;">
+    <div id="ztreeDiv" class="ztree"></div>
+    <button onclick="update_power();" type="button">提交</button>
 </div>
 
 </body>

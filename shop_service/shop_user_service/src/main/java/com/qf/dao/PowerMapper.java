@@ -13,4 +13,6 @@ import java.util.List;
 public interface PowerMapper extends BaseMapper<Power> {
 
     List<Power> queryAllPowers();
+
+    List<Power> queryPowerByRid(Integer rid);
 }

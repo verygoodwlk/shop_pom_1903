@@ -6,6 +6,7 @@ import com.qf.service.IRoleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -53,5 +54,16 @@ public class RoleController {
     public String roleInsert(Role role){
         roleService.insertRole(role);
         return "redirect:/role/list";
+    }
+
+    /**
+     * 修改角色拥有的权限
+     * @return
+     */
+    @RequestMapping("/updatePower")
+    @ResponseBody
+    public String updatePower(Integer rid, @RequestParam("pids[]") Integer[] pids){
+        roleService.updateRolePowers(rid, pids);
+        return "succ";
     }
 }

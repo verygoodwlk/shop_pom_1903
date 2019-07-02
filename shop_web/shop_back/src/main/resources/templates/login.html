@@ -36,11 +36,11 @@
     <!-- End #logn-top -->
     <div id="login-content">
         <form action="/login" method="post">
-            <div class="notification information png_bg">
+            <div th:if="${#request.getParameter('error') != null && #request.getParameter('error').equals('1')}" class="notification information png_bg">
                 <div>用户名或者密码错误</div>
             </div>
             <p>
-                <label>用户名</label> <input class="text-input" name="email"
+                <label>用户名</label> <input class="text-input" name="username"
                                          type="text" />
             </p>
             <div class="clear"></div>

@@ -1,6 +1,7 @@
 package com.qf.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 表名 xxx_xxx -> XxxXxxx
@@ -29,4 +31,9 @@ public class BackUser implements Serializable {
     private Integer sex;
     private Date createtime = new Date();
     private Integer status;
+
+    @TableField(exist = false)
+    private List<Role> roles;
+    @TableField(exist = false)
+    private List<Power> powers;
 }

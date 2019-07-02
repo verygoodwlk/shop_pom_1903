@@ -64,11 +64,23 @@
             <ul id="main-nav">
                 <li><a onclick="itemclick(this);" name="home.html"
                        class="nav-top-item no-submenu"> 主页 </a></li>
-                <li><a class="nav-top-item"> 组织管理 </a>
+                <!--<li><a class="nav-top-item"> 组织管理 </a>
                     <ul>
                         <li><a onclick="itemclick(this);" name="/buser/list">职工管理</a></li>
                         <li><a onclick="itemclick(this);" name="/role/list">角色管理</a></li>
                         <li><a onclick="itemclick(this);" name="/power/list">权限管理</a></li>
+                    </ul>
+                </li>-->
+
+                <!-- 循环所有权限 -->
+                <li th:each="power : ${#session.getAttribute('loginUser').powers}" th:if="${power.status == 1}">
+                    <!-- 找到所有权限中的一级权限 -->
+                    <a class="nav-top-item" th:text="${power.powername}"> 组织管理 </a>
+                    <ul>
+                        <!-- 再次循环所有权限，找到当前一级权限下的所有二级权限 -->
+                        <li th:each="power2 : ${#session.getAttribute('loginUser').powers}" th:if="${power2.status == 2 && power2.pid == power.id}">
+                            <a th:text="${power2.powername}" th:name="${power2.powerpath}" onclick="itemclick(this);" >职工管理</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
