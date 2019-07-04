@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <base th:href="${#request.getContextPath() + '/'}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -72,7 +73,7 @@
                     <tr>
                         <td colspan="6">
                             <div class="bulk-actions align-left">
-                                <a class="mybutton" onclick="open_dialog();">添加职工</a>
+                                <a sec:authorize-url="/buser/insert" class="mybutton" onclick="open_dialog();">添加职工</a>
                             </div>
                             <!--<div class="pagination">
                                 <a href="#" title="First Page">&laquo; First</a><a href="#"

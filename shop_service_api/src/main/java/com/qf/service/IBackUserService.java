@@ -1,10 +1,11 @@
 package com.qf.service;
 
 import com.qf.entity.BackUser;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface IBackUserService {
+public interface IBackUserService extends UserDetailsService {
 
     List<BackUser> queryAll();
 
@@ -12,5 +13,5 @@ public interface IBackUserService {
 
     int updateUserRoles(Integer uid, Integer[] rid);
 
-    BackUser login(String username, String password);
+   /* BackUser login(String username, String password);*/
 }
