@@ -32,10 +32,10 @@
     <select id="queryByUserName" resultMap="MyResultMap">
         select *, p.id as powerid, p.pid as powerpid, p.status as powerstatus from
             back_user b
-                join user_role_table urt on b.id = urt.uid
-                join role r on urt.rid = r.id
-                join role_power_table rpt on rpt.rid = r.id
-                join power p on p.id = rpt.pid
+                left join user_role_table urt on b.id = urt.uid
+                left join role r on urt.rid = r.id
+                left join role_power_table rpt on rpt.rid = r.id
+                left join power p on p.id = rpt.pid
             where username = #{username}
     </select>
 </mapper>
