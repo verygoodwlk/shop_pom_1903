@@ -3,6 +3,11 @@ server:
 spring:
   thymeleaf:
     cache: false
+  servlet:
+    multipart:
+      #限制上传文件的大小
+      max-file-size: 10MB
+      max-request-size: 10MB
 dubbo:
   application:
     name: back_web
@@ -10,3 +15,5 @@ dubbo:
     address: zookeeper://192.168.227.188:2181
   consumer:
     check: false
+upload:
+  path: C:/worker/img/

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <base th:href="${#request.getContextPath() + '/'}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+    <!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
+    <!-- Reset Stylesheet -->
+    <link rel="stylesheet" href="resources/css/reset.css" type="text/css"
+          media="screen" />
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="resources/css/style.css" type="text/css"
+          media="screen" />
+    <link rel="stylesheet" href="resources/css/invalid.css" type="text/css"
+          media="screen" />
+
+    <!--                       Javascripts                       -->
+    <!-- jQuery -->
+    <script type="text/javascript"
+            src="resources/scripts/jquery-1.8.3.min.js"></script>
+    <!-- jQuery Configuration
+    <script type="text/javascript"
+            src="resources/scripts/simpla.jquery.configuration.js"></script>-->
+
+    <!-- 添加弹出框的jquery插件 -->
+    <script type="text/javascript" src="resources/widget/dialog/jquery-ui-1.9.2.custom.min.js"></script>
+    <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+
+
+    <!-- 添加一个图片上传插件 -->
+    <script type="text/javascript" src="resources/widget/webuploader/webuploader.min.js"></script>
+    <link rel="stylesheet" href="resources/widget/webuploader/webuploader.css">
+
+</head>
+<body>
+<div id="main-content">
+    <div class="content-box">
+        <!-- End .content-box-header -->
+        <div class="content-box-content">
+            <div class="tab-content default-tab" id="tab1">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><input class="check-all" type="checkbox" /></th>
+                        <th>编号</th>
+                        <th>商品名称</th>
+                        <th>商品图片</th>
+                        <th>商品描述</th>
+                        <th>商品价格</th>
+                        <th>商品库存</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="good : ${goods}">
+                        <td><input type="checkbox" /></td>
+                        <td th:text="${good.id}">Lorem ipsum dolor</td>
+                        <td th:text="${good.gname}"><a href="#" title="title">Sit amet</a></td>
+                        <!--<td th:text="${good.gimage}">Consectetur adipiscing</td>-->
+
+                        <td><img th:each="img : ${#strings.listSplit(good.gimage, '|')}"
+                                 th:src="|/goods/getImg?imgpath=${img}|"
+                                 style="width: 100px; height: 80px; margin-right: 5px"/></td>
+
+                        <td th:text="${good.ginfo}">Donec tortor diam</td>
+                        <td th:text="${#numbers.formatCurrency(good.gprice)}">Donec tortor diam</td>
+                        <td th:text="${good.gsave}">Donec tortor diam</td>
+                        <td>
+                            <!-- Icons -->
+                            <a href="#" title="Edit"><img
+                                src="resources/images/icons/pencil.png" alt="Edit" /></a>
+                            <a href="#" title="Delete"><img
+                                src="resources/images/icons/cross.png" alt="Delete" /></a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <div class="bulk-actions align-left">
+                                <a class="mybutton" onclick="open_dialog();">添加商品</a>
+                            </div>
+                            <!--<div class="pagination">
+                                <a href="#" title="First Page">&laquo; First</a><a href="#"
+                                                                                   title="Previous Page">&laquo; Previous</a> <a href="#"
+                                                                                                                                 class="number" title="1">1</a> <a href="#" class="number"
+                                                                                                                                                                   title="2">2</a> <a href="#" class="number current" title="3">3</a>
+                                <a href="#" class="number" title="4">4</a> <a href="#"
+                                                                              title="Next Page">Next &raquo;</a><a href="#"
+                                                                                                                   title="Last Page">Last &raquo;</a>
+                            </div>-->
+                            <!-- End .pagination -->
+                            <div class="clear"></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!-- End .content-box-content -->
+    </div>
+</div>
+<!-- End #main-content -->
+
+<script>
+
+    $(function (){
+        // 初始化Web Uploader
+        var uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: 'resources/widget/webuploader/Uploader.swf',
+            // 文件接收服务端。
+            server: '/goods/uploadImg',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#filePicker',
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            }
+        });
+
+        //设置uploader的各种事件
+        // 当有文件添加进来的时候
+        uploader.on( 'fileQueued', function( file ) {
+
+            // 创建缩略图
+            // 如果为非图片文件，可以不用调用此方法。
+            // thumbnailWidth x thumbnailHeight 为 100 x 100
+            uploader.makeThumb( file, function( error, src ) {
+                if ( error ) {
+                    alert("该文件不能生成缩略图！");
+                    return;
+                }
+
+                var img = "<img src='" + src + "' style='width: 100px; height: 100px; margin: 10px'/>";
+                $("#showPic").append(img);
+            }, 100, 100);
+        });
+
+        //设置文件上传成功的事件
+        uploader.on('uploadSuccess', function(file, response){
+            //alert(file.name + "上传成功，上传后的路径为:" + response.filepath)
+            var images = $("#gimage").val();
+            if(images != ""){
+                images += "|";
+            }
+            images += response.filepath;
+            $("#gimage").val(images);
+        });
+    });
+
+    //弹出添加职工的dialog
+    function open_dialog(){
+        $("#dialog_div").dialog({
+            title: "添加商品",
+            width: 800,
+            height: 500,
+            modal: true
+        });
+    }
+</script>
+
+<!-- 代表一个弹出框 - 默认隐藏 -->
+<div id="dialog_div" style="display: none;">
+    <form action="/goods/insert" method="post" enctype="multipart/form-data">
+        商品名称:<input name="gname"/><br/>
+        商品图片:
+            <div id="filePicker">选择图片</div>
+            <div id="showPic" style="width: 600px; height: 150px; border: #ff0000 solid 1px"></div>
+            <input id="gimage" name="gimage" type="hidden" value=""/>
+        <br/>
+        商品价格:<input name="gprice"/><br/>
+        商品库存:<input name="gsave"/><br/>
+        商品描述:<textarea name="ginfo" rows="7" cols="5"></textarea><br/>
+        <button type="submit">添加</button>
+    </form>
+</div>
+
+</body>
+</html>
