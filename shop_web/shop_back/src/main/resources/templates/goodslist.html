@@ -61,7 +61,7 @@
                         <!--<td th:text="${good.gimage}">Consectetur adipiscing</td>-->
 
                         <td><img th:each="img : ${#strings.listSplit(good.gimage, '|')}"
-                                 th:src="|/goods/getImg?imgpath=${img}|"
+                                 th:src="|http://192.168.227.188/${img}|"
                                  style="width: 100px; height: 80px; margin-right: 5px"/></td>
 
                         <td th:text="${good.ginfo}">Donec tortor diam</td>
