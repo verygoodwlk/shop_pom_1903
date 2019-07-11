@@ -1,0 +1,14 @@
+server:
+  port: 8082
+spring:
+  thymeleaf:
+    cache: false
+dubbo:
+  application:
+    name: search_web
+  registry:
+    address: zookeeper://192.168.227.188:2181
+  consumer:
+    check: false
+    timeout: 10000
+    retries: 3

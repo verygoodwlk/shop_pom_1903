@@ -57,7 +57,7 @@
                     <tr th:each="good : ${goods}">
                         <td><input type="checkbox" /></td>
                         <td th:text="${good.id}">Lorem ipsum dolor</td>
-                        <td th:text="${good.gname}"><a href="#" title="title">Sit amet</a></td>
+                        <td th:utext="${good.gname}"><a href="#" title="title">Sit amet</a></td>
                         <!--<td th:text="${good.gimage}">Consectetur adipiscing</td>-->
 
                         <td><img th:each="img : ${#strings.listSplit(good.gimage, '|')}"
