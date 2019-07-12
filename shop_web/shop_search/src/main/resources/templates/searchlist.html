@@ -704,8 +704,10 @@
             <ul>
                 <li th:each="goods : ${goodsList}">
                     <dl>
-                        <dt><a><img th:src="|http://192.168.227.188/${#strings.listSplit(goods.gimage, '|')[0]}|" src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
-                        <dd class="title"><a th:utext="${goods.gname}">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+                        <dt><a th:href="|http://localhost:8083/page/${goods.id}.html|">
+                            <img th:src="|http://192.168.227.188/${#strings.listSplit(goods.gimage, '|')[0]}|" src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" />
+                        </a></dt>
+                        <dd class="title"><a th:href="|http://localhost:8083/page/${goods.id}.html|" th:utext="${goods.gname}">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
                         <dd class="content">
                             <span class="goods_jiage" th:text="${#numbers.formatCurrency(goods.gprice)}">￥<strong>249.00</strong></span>
                             <span class="goods_chengjiao" th:text="|剩余库存为${goods.gsave}件|">最近成交5笔</span>
