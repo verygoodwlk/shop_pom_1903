@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.qf</groupId>
-    <artifactId>shop_user_service</artifactId>
+    <artifactId>shop_email_service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>shop_user_service</name>
+    <name>shop_email_service</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -21,32 +21,11 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-            <version>5.1.47</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.boot</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>0.2.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.qf</groupId>
-            <artifactId>shop_service_api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
         <dependency>
@@ -57,7 +36,7 @@
 
         <dependency>
             <groupId>com.qf</groupId>
-            <artifactId>shop_commons</artifactId>
+            <artifactId>shop_entity</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -1,0 +1,17 @@
+server:
+  port: 8084
+spring:
+  rabbitmq:
+    host: 192.168.227.188
+    virtual-host: /
+  redis:
+    host: 192.168.227.188
+    password: root
+dubbo:
+  application:
+    name: sso_web
+  registry:
+    address: zookeeper://192.168.227.188:2181
+  consumer:
+    check: false
+    timeout: 10000
