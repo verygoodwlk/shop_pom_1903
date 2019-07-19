@@ -61,4 +61,22 @@ public class UserServiceImpl implements IUserService {
         user.setPassword(BCryptUtil.hashPassword(password));
         return userMapper.updateById(user);
     }
+
+    @Override
+    public User login(User user) {
+
+        User u = queryByUserName(user.getUsername());
+
+        if(u != null){
+
+            //用户名正确，接下来校验密码
+            boolean flag = BCryptUtil.checkPassword(u.getPassword(), user.getPassword());
+            if(flag){
+                //登录成功
+                return u;
+            }
+        }
+
+        return null;
+    }
 }
