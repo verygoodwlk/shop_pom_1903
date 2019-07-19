@@ -211,13 +211,17 @@ public class SSOController {
      * @return
      */
     @RequestMapping("/login")
-    public String login(User user, HttpServletResponse response){
+    public String login(User user, String returnUrl, HttpServletResponse response){
 
         user = userService.login(user);
 
         if(user == null){
             //登录失败
             return "redirect:/sso/tologin?error=1";
+        }
+
+        if(returnUrl == null){
+            returnUrl = "http://localhost:8081";
         }
 
         //登录成功
@@ -238,7 +242,7 @@ public class SSOController {
 //        cookie.setHttpOnly();
         response.addCookie(cookie);
 
-        return "redirect:http://localhost:8081";
+        return "redirect:" + returnUrl;
     }
 
     /**
