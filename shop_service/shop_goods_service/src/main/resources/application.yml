@@ -7,6 +7,9 @@ spring:
   rabbitmq:
     host: 192.168.227.188
     virtual-host: /
+  redis:
+    host: 192.168.227.188
+    password: root
 dubbo:
   application:
     name: goods_service
