@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.qf.entity.Email;
 import com.qf.entity.User;
+import com.qf.service.ICartService;
 import com.qf.service.IUserService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class SSOController {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Reference
+    private ICartService cartService;
 
     @Reference
     private IUserService userService;
@@ -211,7 +215,11 @@ public class SSOController {
      * @return
      */
     @RequestMapping("/login")
-    public String login(User user, String returnUrl, HttpServletResponse response){
+    public String login(
+            @CookieValue(value = "cartToken", required = false)
+            String cartToken,
+            User user, String returnUrl,
+            HttpServletResponse response){
 
         user = userService.login(user);
 
@@ -219,6 +227,7 @@ public class SSOController {
             //登录失败
             return "redirect:/sso/tologin?error=1";
         }
+
 
         if(returnUrl == null){
             returnUrl = "http://localhost:8081";
@@ -241,6 +250,15 @@ public class SSOController {
 //        cookie.setSecure(true);
 //        cookie.setHttpOnly();
         response.addCookie(cookie);
+
+        //合并下临时的购物车
+        int result = cartService.mergeCarts(cartToken, user);
+        if(result == 1){
+            Cookie cookie1 = new Cookie("cartToken", "");
+            cookie1.setMaxAge(0);
+            cookie1.setPath("/");
+            response.addCookie(cookie1);
+        }
 
         return "redirect:" + returnUrl;
     }

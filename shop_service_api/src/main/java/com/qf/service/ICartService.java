@@ -10,4 +10,6 @@ public interface ICartService {
     int insertCart(ShopCart shopCart, User user, String cartToken);
 
     List<ShopCart> queryCartList(User user, String cartToken);
+
+    int mergeCarts(String cartToken, User user);
 }

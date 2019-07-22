@@ -7,12 +7,14 @@ import com.qf.entity.ShopCart;
 import com.qf.entity.User;
 import com.qf.service.ICartService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -74,5 +76,30 @@ public class CartController {
         List<ShopCart> shopCarts = cartService.queryCartList(user, cartToken);
 
         return callback != null ? callback + "(" + JSON.toJSONString(shopCarts) + ")" : JSON.toJSONString(shopCarts);
+    }
+
+
+    /**
+     * 跳转到购物车的展示列表
+     * @return
+     */
+    @IsLogin
+    @RequestMapping("/showlist")
+    public String showList(
+            @CookieValue(value = "cartToken", required = false) String cartToken,
+            User user,
+            Model model){
+
+        //查询当前的购物车信息
+        List<ShopCart> shopCarts = cartService.queryCartList(user, cartToken);
+        //计算总价
+        BigDecimal bigDecimal = BigDecimal.valueOf(0.0);
+        for (ShopCart shopCart : shopCarts) {
+            bigDecimal = bigDecimal.add(shopCart.getSprice());
+        }
+        model.addAttribute("carts", shopCarts);
+        model.addAttribute("allprice", bigDecimal.doubleValue());
+
+        return "cartlist";
     }
 }

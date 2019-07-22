@@ -106,4 +106,29 @@ public class CartServiceImpl implements ICartService {
 
         return cartList;
     }
+
+    /**
+     * 合并购物车
+     * @param cartToken
+     * @param user
+     * @return
+     */
+    @Override
+    public int mergeCarts(String cartToken, User user) {
+        if(cartToken != null){
+            long size = redisTemplate.opsForList().size(cartToken);
+            List<ShopCart> carts = redisTemplate.opsForList().range(cartToken, 0, size);
+
+            //将购物车的数据插入到数据库中
+            for (ShopCart cart : carts) {
+                cart.setUid(user.getId());
+                cartMapper.insert(cart);
+            }
+
+            //清空临时购物车
+            redisTemplate.delete(cartToken);
+            return 1;
+        }
+        return 0;
+    }
 }
