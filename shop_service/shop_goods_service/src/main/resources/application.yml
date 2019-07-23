@@ -20,3 +20,5 @@ dubbo:
     port: -1
   consumer:
     check: false
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml

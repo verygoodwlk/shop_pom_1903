@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.dao.AddressMapper">
+
+    <!--
+        Connection conn = xxxx;
+        Statement statement = conn.createStatement();
+        statement.execute(sql);
+
+        String sql = "select * from xxx where xx = ? and xxx = ?"
+        PrepareStatement xxxx = conn.createPrepareStatment(sql);
+        xxx.setInt(1, xxxx);
+        xxx.execute();
+
+        CallableStatment c
+
+    -->
+    <insert id="insertAddress" statementType="CALLABLE">
+        { call pro_insert_address(#{uid, jdbcType=INTEGER},
+                  #{person, jdbcType=VARCHAR},
+                  #{address, jdbcType=LONGNVARCHAR},
+                  #{phone, jdbcType=CHAR},
+                  #{isdefault, jdbcType=INTEGER},
+                  #{createtime, jdbcType=TIMESTAMP}) }
+    </insert>
+
+</mapper>
