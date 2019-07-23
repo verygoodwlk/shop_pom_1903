@@ -555,7 +555,7 @@
                 <ul>
                     <li th:each="address : ${addresses}">
                         <label>寄送至：
-                            <span><input type="radio" th:value="${address.id}"
+                            <span><input name="aid" type="radio" th:value="${address.id}"
                                          th:checked="${address.isdefault == 1 ? 'true' : 'false'}" /></span>
                         </label>
                         <em th:text="${address.address}"></em>
@@ -624,13 +624,23 @@
                     <div class="clear"></div>
                     <div class="gwc_foot_links">
                         <a class="go">返回上一步</a>
-                        <a class="op">确认收货地址</a>
+                        <a class="op" onclick="insertOrders();">确认收货地址</a>
                     </div>
                 </td>
             </tr>
             </tfoot>
         </table>
         <!-- 购物车列表 End -->
+
+        <script>
+            /**
+             * 下单
+             */
+            function insertOrders(){
+                var aid = $("input[name='aid']:checked").val();
+                location.href="/order/insertOrder?aid=" + aid;
+            }
+        </script>
 
     </div>
 </div>

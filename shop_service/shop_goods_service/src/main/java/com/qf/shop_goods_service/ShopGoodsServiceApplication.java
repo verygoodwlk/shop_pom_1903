@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = "com.qf")
 @MapperScan("com.qf.dao")
 @DubboComponentScan("com.qf.serviceimpl")
+
 public class ShopGoodsServiceApplication {
 
     public static void main(String[] args) {

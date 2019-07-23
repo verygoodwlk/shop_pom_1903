@@ -7,6 +7,7 @@ import com.qf.entity.ShopCart;
 import com.qf.entity.User;
 import com.qf.service.IAddressService;
 import com.qf.service.ICartService;
+import com.qf.service.IOrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,10 @@ public class OrderController {
 
     @Reference
     private IAddressService addressService;
+
+    @Reference
+    private IOrderService orderService;
+
 
 
     /**
@@ -59,5 +64,16 @@ public class OrderController {
         model.addAttribute("allprice", bigDecimal.doubleValue());
 
         return "orderedit";
+    }
+
+    /**
+     * 下单
+     * @return
+     */
+    @IsLogin(mustLogin = true)
+    @RequestMapping("/insertOrder")
+    public String insertOrder(Integer aid, User user){
+        orderService.insertOrder(aid, user);
+        return "succ";
     }
 }
