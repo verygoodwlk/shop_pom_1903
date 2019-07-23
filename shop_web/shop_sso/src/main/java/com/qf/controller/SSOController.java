@@ -21,7 +21,85 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-/**
+/** shop_web/shop_sso/src/main/java/com/qf/controller/SSOContr
+ oller.java
+
+ Untracked files:
+ (use "git add <file>..." to include in what will be committed)
+
+ .idea/
+ datasource_more_demo/.gitignore
+ datasource_more_demo/.mvn/
+ datasource_more_demo/mvnw
+ datasource_more_demo/mvnw.cmd
+ rabbitmq_java_demo/rabbitmq_java_demo.iml
+ rabbitmq_java_demo/target/
+ shop_commons/shop_commons.iml
+ shop_commons/target/
+ shop_entity/shop_entity.iml
+ shop_entity/target/
+ shop_pom_1903.iml
+ shop_service/shop_email_service/.gitignore
+ shop_service/shop_email_service/.mvn/
+ shop_service/shop_email_service/mvnw
+ shop_service/shop_email_service/mvnw.cmd
+ shop_service/shop_goods_service/.gitignore
+ shop_service/shop_goods_service/.mvn/
+ shop_service/shop_goods_service/mvnw
+ shop_service/shop_goods_service/mvnw.cmd
+ shop_service/shop_order_service/.gitignore
+ shop_service/shop_order_service/.mvn/
+ shop_service/shop_order_service/mvnw
+ shop_service/shop_order_service/mvnw.cmd
+ shop_service/shop_search_service/.gitignore
+ shop_service/shop_search_service/.mvn/
+ shop_service/shop_search_service/mvnw
+ shop_service/shop_search_service/mvnw.cmd
+ shop_service/shop_service.iml
+ shop_service/shop_user_service/.gitignore
+ shop_service/shop_user_service/.mvn/
+ shop_service/shop_user_service/mvnw
+ shop_service/shop_user_service/mvnw.cmd
+ shop_service_api/shop_service_api.iml
+ shop_service_api/target/
+ shop_web/shop_back/.gitignore
+ shop_web/shop_back/.mvn/
+ shop_web/shop_back/mvnw
+ shop_web/shop_back/mvnw.cmd
+ shop_web/shop_cart/.gitignore
+ shop_web/shop_cart/.mvn/
+ shop_web/shop_cart/mvnw
+ shop_web/shop_cart/mvnw.cmd
+ shop_web/shop_front/.gitignore
+ shop_web/shop_front/.mvn/
+ shop_web/shop_front/mvnw
+ shop_web/shop_front/mvnw.cmd
+ shop_web/shop_item/.gitignore
+ shop_web/shop_item/.mvn/
+ shop_web/shop_item/mvnw
+ shop_web/shop_item/mvnw.cmd
+ shop_web/shop_order/.gitignore
+ shop_web/shop_order/.mvn/
+ shop_web/shop_order/mvnw
+ shop_web/shop_order/mvnw.cmd
+ shop_web/shop_search/.gitignore
+ shop_web/shop_search/.mvn/
+ shop_web/shop_search/mvnw
+ shop_web/shop_search/mvnw.cmd
+ shop_web/shop_sso/.gitignore
+ shop_web/shop_sso/.mvn/
+ shop_web/shop_sso/mvnw
+ shop_web/shop_sso/mvnw.cmd
+ shop_web/shop_web.iml
+
+
+ C:\worker\JavaEE\workspace\idea_workspace_1903\shop_pom_1903>git diff shop_web/shop_sso/src/main/java/com/qf/controller/SSOContr
+ fatal: ambiguous argument 'shop_web/shop_sso/src/main/java/com/qf/controller/SSOContr': unknown revision or path not in the working tree.
+ Use '--' to separate paths from revisions, like this:
+ 'git <command> [<revision>...] -- [<file>...]'
+
+ C:\worker\JavaEE\workspace\idea_workspace_1903\shop_pom_1903>git add
+
  * @version 1.0
  * @user ken
  * @date 2019/7/18 10:58
@@ -229,7 +307,7 @@ public class SSOController {
         }
 
 
-        if(returnUrl == null){
+        if(returnUrl == null || returnUrl.trim().equals("")){
             returnUrl = "http://localhost:8081";
         }
 
