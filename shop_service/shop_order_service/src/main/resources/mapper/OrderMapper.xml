@@ -31,10 +31,19 @@
         (#{order.orderid}, #{order.person}, #{order.address}, #{order.phone}, #{order.allprice}, #{order.createtime}, #{order.status}, #{order.uid})
     </insert>
 
+
+    <update id="updateOrderStatus">
+        update orders${tableIndex} set status = #{status} where orderid = #{orderid}
+    </update>
+
     <!-- 关联查询用户对应的所有订单以及订单详情 -->
     <select id="queryOrdersByUid" resultMap="MyResultMap">
         select * from orders${tableIndex} o join order_detils${tableIndex} od
             on o.orderid = od.orderid where o.uid = #{uid}
             order by o.createtime desc
+    </select>
+
+    <select id="queryByOid" resultType="com.qf.entity.Order">
+        select * from orders${tableIndex} where orderid = #{orderid}
     </select>
 </mapper>

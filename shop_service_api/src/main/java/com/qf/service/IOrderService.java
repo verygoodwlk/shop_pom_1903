@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface IOrderService  {
 
-    int insertOrder(Integer aid, User user);
+    Order insertOrder(Integer aid, User user);
 
     List<Order> queryByUid(Integer uid);
 
     Order queryByOid(String orderid);
+
+    int updateOrderStatus(String orderid, int status);
 }

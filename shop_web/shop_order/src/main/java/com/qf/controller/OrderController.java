@@ -74,8 +74,10 @@ public class OrderController {
     @IsLogin(mustLogin = true)
     @RequestMapping("/insertOrder")
     public String insertOrder(Integer aid, User user){
-        orderService.insertOrder(aid, user);
-        return "succ";
+        //下单
+        Order order = orderService.insertOrder(aid, user);
+
+        return "redirect:/pay/alipay?orderid=" + order.getOrderid();
     }
 
     /**

@@ -16,4 +16,8 @@ public interface OrderMapper extends BaseMapper<Order> {
     int insertOrder(@Param("order") Order order, @Param("tableIndex") int tableIndex);
 
     List<Order> queryOrdersByUid(@Param("uid") Integer uid, @Param("tableIndex") int tableIndex);
+
+    Order queryByOid(@Param("orderid") String orderid, @Param("tableIndex") int tableIndex);
+
+    int updateOrderStatus(@Param("orderid")String orderid, @Param("status") int status, @Param("tableIndex") int tableIndex);
 }

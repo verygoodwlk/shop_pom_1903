@@ -48,7 +48,7 @@ public class OrderServiceImpl implements IOrderService {
      */
     @Override
 //    @Transactional
-    public int insertOrder(Integer aid, User user) {
+    public Order insertOrder(Integer aid, User user) {
 
         //确定数据源
         //获得用户id
@@ -119,7 +119,7 @@ public class OrderServiceImpl implements IOrderService {
         //清空购物车
         cartService.deleteCart(user);
 
-        return 1;
+        return order;
     }
 
     @Override
@@ -139,8 +139,53 @@ public class OrderServiceImpl implements IOrderService {
         return orderMapper.queryOrdersByUid(uid, tableIndex);
     }
 
+    /**
+     * 通过订单号查询订单详情
+     * @param orderid
+     * @return
+     */
     @Override
     public Order queryByOid(String orderid) {
-        return null;
+
+        //1、通过订单号解析出用户id后4位
+        Integer uid = orderUtil.parseOrderId(orderid);
+
+        //2、通过uid定位库表
+        int uids = Integer.parseInt(orderUtil.getUid(uid));
+        int dbIndex = uids % 2 + 1; //orderdb{dbIndex}
+        System.out.println("定位到库的id：" + dbIndex);
+        DynamicDataSource.set("orderdb"+dbIndex);
+
+        //确定表，用户id后4位 / 2 % 2
+        int tableIndex = uids / 2 % 2 + 1;//2
+        System.out.println("定位到表的id: " + tableIndex);
+
+        //查询订单
+        return orderMapper.queryByOid(orderid, tableIndex);
+    }
+
+    /**
+     * 修改订单的状态
+     * @param orderid
+     * @param status
+     * @return
+     */
+    @Override
+    public int updateOrderStatus(String orderid, int status) {
+
+        //1、通过订单号解析出用户id后4位
+        Integer uid = orderUtil.parseOrderId(orderid);
+
+        //2、通过uid定位库表
+        int uids = Integer.parseInt(orderUtil.getUid(uid));
+        int dbIndex = uids % 2 + 1; //orderdb{dbIndex}
+        System.out.println("定位到库的id：" + dbIndex);
+        DynamicDataSource.set("orderdb"+dbIndex);
+
+        //确定表，用户id后4位 / 2 % 2
+        int tableIndex = uids / 2 % 2 + 1;//2
+        System.out.println("定位到表的id: " + tableIndex);
+
+        return orderMapper.updateOrderStatus(orderid, status, tableIndex);
     }
 }

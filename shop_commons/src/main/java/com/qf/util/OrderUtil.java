@@ -86,4 +86,14 @@ public class OrderUtil {
         return stringBuffer.toString();
     }
 
+
+    /**
+     * 解析订单id中的用户id号
+     * @param orderid
+     * @return
+     */
+    public Integer parseOrderId(String orderid){
+        String uid = orderid.substring(6, 10);
+        return Integer.parseInt(uid);
+    }
 }

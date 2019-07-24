@@ -554,7 +554,10 @@
                             <!-- 后面两列应该跨行，并且第二行开始就不需要这两列了 -->
                             <td th:if="${orderdetilState.first}" th:rowspan="${#lists.size(order.orderDetils)}" class="dingdan_zongjia" th:text="${#numbers.formatCurrency(order.allprice)}">￥<strong>25.00</strong><br />(免运费)</td>
                             <td th:if="${orderdetilState.first}" th:rowspan="${#lists.size(order.orderDetils)}" class="digndan_caozuo" th:switch="${order.status}">
-                                <a th:case="0">等待买家付款</a>
+                                <a th:case="0">
+                                    等待买家付款<br/>
+                                    <a th:href="|/pay/alipay?orderid=${order.orderid}|">去付款</a>
+                                </a>
                                 <a th:case="1">已付款</a>
                                 <a th:case="2">待收货</a>
                                 <a th:case="3">已收货</a>
