@@ -12,4 +12,6 @@ public interface ICartService {
     List<ShopCart> queryCartList(User user, String cartToken);
 
     int mergeCarts(String cartToken, User user);
+
+    int deleteCart(User user);
 }

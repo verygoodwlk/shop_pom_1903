@@ -131,4 +131,12 @@ public class CartServiceImpl implements ICartService {
         }
         return 0;
     }
+
+    @Override
+    public int deleteCart(User user) {
+
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("uid", user.getId());
+        return cartMapper.delete(queryWrapper);
+    }
 }

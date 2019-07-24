@@ -32,6 +32,7 @@ public class Order implements Serializable {
     private BigDecimal allprice;
     private Date createtime;
     private Integer status;//0 - 未支付 1 - 已支付/待发货  2 - 已发货 3 - 已收货
+    private Integer uid;
 
     @TableField(exist = false)
     private List<OrderDetils> orderDetils;

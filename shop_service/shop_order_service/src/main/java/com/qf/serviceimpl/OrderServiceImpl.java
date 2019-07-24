@@ -83,6 +83,7 @@ public class OrderServiceImpl implements IOrderService {
                 bigDecimal,
                 new Date(),
                 0,
+                user.getId(),
                 null
         );
 
@@ -115,12 +116,27 @@ public class OrderServiceImpl implements IOrderService {
         //插入到订单表和订单详情表中
         orderMapper.insertOrder(order, tableIndex);
 
+        //清空购物车
+        cartService.deleteCart(user);
+
         return 1;
     }
 
     @Override
     public List<Order> queryByUid(Integer uid) {
-        return null;
+        //库的定位
+        //表的定位
+        int uids = Integer.parseInt(orderUtil.getUid(uid));
+        int dbIndex = uids % 2 + 1; //orderdb{dbIndex}
+        System.out.println("定位到库的id：" + dbIndex);
+        DynamicDataSource.set("orderdb"+dbIndex);
+
+        //确定表，用户id后4位 / 2 % 2
+        int tableIndex = uids / 2 % 2 + 1;//2
+        System.out.println("定位到表的id: " + tableIndex);
+
+        //查询所有订单以及订单下的所有详情
+        return orderMapper.queryOrdersByUid(uid, tableIndex);
     }
 
     @Override

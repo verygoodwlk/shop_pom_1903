@@ -3,8 +3,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.qf.dao.OrderMapper">
 
+    <resultMap id="MyResultMap" type="com.qf.entity.Order">
+        <id property="orderid" column="orderid"/>
+        <result property="person" column="person"/>
+        <result property="address" column="address"/>
+        <result property="phone" column="phone"/>
+        <result property="allprice" column="allprice"/>
+        <result property="createtime" column="createtime"/>
+        <result property="status" column="status"/>
+        <result property="uid" column="uid"/>
+
+        <!-- 对多 -->
+        <collection property="orderDetils" ofType="com.qf.entity.OrderDetils">
+            <id property="id" column="id"/>
+            <result property="orderid" column="orderid"/>
+            <result property="gid" column="gid"/>
+            <result property="gname" column="gname"/>
+            <result property="gprice" column="gprice"/>
+            <result property="gimage" column="gimage"/>
+            <result property="gnumber" column="gnumber"/>
+            <result property="sprice" column="sprice"/>
+        </collection>
+    </resultMap>
+
     <insert id="insertOrder">
       insert into orders${tableIndex} value
-        (#{order.orderid}, #{order.person}, #{order.address}, #{order.phone}, #{order.allprice}, #{order.createtime}, #{order.status})
+        (#{order.orderid}, #{order.person}, #{order.address}, #{order.phone}, #{order.allprice}, #{order.createtime}, #{order.status}, #{order.uid})
     </insert>
+
+    <!-- 关联查询用户对应的所有订单以及订单详情 -->
+    <select id="queryOrdersByUid" resultMap="MyResultMap">
+        select * from orders${tableIndex} o join order_detils${tableIndex} od
+            on o.orderid = od.orderid where o.uid = #{uid}
+            order by o.createtime desc
+    </select>
 </mapper>
